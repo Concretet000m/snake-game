@@ -103,4 +103,30 @@ document.addEventListener("keydown", event => {
   if (event.key === "ArrowRight" && direction !== "LEFT") direction = "RIGHT";
 });
 
+
 startGame();
+let touchStartX = 0;
+let touchStartY = 0;
+
+document.addEventListener("touchstart", e => {
+  touchStartX = e.touches[0].clientX;
+  touchStartY = e.touches[0].clientY;
+});
+
+document.addEventListener("touchend", e => {
+  const touchEndX = e.changedTouches[0].clientX;
+  const touchEndY = e.changedTouches[0].clientY;
+
+  const diffX = touchEndX - touchStartX;
+  const diffY = touchEndY - touchStartY;
+
+  if (Math.abs(diffX) > Math.abs(diffY)) {
+    // Left or Right
+    if (diffX > 0 && direction !== "LEFT") direction = "RIGHT";
+    if (diffX < 0 && direction !== "RIGHT") direction = "LEFT";
+  } else {
+    // Up or Down
+    if (diffY > 0 && direction !== "UP") direction = "DOWN";
+    if (diffY < 0 && direction !== "DOWN") direction = "UP";
+  }
+});
